@@ -1,0 +1,6 @@
+DATA_DIR = "data/"
+
+OUTPUT_DIR = "outputs/"
+OUTPUT_IMAGES_DIR = OUTPUT_DIR + "images/"
+OUTPUT_MODELS_DIR = OUTPUT_DIR + "models/"
+OUTPUT_LOGS_DIR = OUTPUT_DIR + "logs/"
