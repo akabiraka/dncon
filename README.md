@@ -1,8 +1,11 @@
 # Project Title
-Deep Learning Project Model
+DNCON
 
 ## What it does?
-Simply this is template of a deep learning project. It contains no particular code excepts some packages, basic module and top view run and tester file. So basically this project requires to understand directories so that you can put codes in correct directory.
+This project is reconstruction of **DNCON:Predicting protein residue–residue contacts using deep networks and boosting**. The base paper link is here: https://academic.oup.com/bioinformatics/article/28/23/3066/195693#92186201.
+
+## Extra notes
+Every files test cases should be bottom of that file.
 
 ## Directories, modules and packages
 ```
@@ -10,6 +13,7 @@ configs/
     __init_.py
     general_config.py
 data/
+    pdbs/ "this need to be added in the directory"
 datasets/
     __init_.py
 metrics/
