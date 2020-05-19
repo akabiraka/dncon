@@ -13,7 +13,8 @@ configs/
     __init_.py
     general_config.py
 data/
-    pdbs/ "this need to be added in the directory"
+    pdbs/
+    contact_maps/
 datasets/
     __init_.py
 metrics/
