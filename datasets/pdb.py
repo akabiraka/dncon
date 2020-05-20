@@ -91,6 +91,7 @@ class PDB(object):
         return np.sqrt(np.sum(diff_vector * diff_vector))
 
     def get_contact_map(self, pdb_code, chain_id):
+        print("converting {}, {} into contact map ... ...".format(pdb_code, chain_id))
         pdb_filename = CONFIGS.PDB_DIR + pdb_code + CONFIGS.CIF_EXT
         is_defected = False
         # reading whole structure
@@ -116,6 +117,20 @@ class PDB(object):
         
         return is_defected, contact_map, dist_matrix
 
+    def convert_cif_to_fasta(self, pdb_code):
+        """
+        Bio.SeqIO describes how to convert in the following page in "Conversion" section
+            https://biopython.org/DIST/docs/api/Bio.SeqIO-module.html
+        The following link has an example for converting "cif to fasta" format.
+            http://sequenceconversion.bugaco.com/converter/biology/sequences/cif-atom_to_fasta.php
+        """
+        print("converting {} into fasta ... ...".format(pdb_code))
+        protein_cif = CONFIGS.PDB_DIR + pdb_code + CONFIGS.CIF_EXT
+        protein_fasta = CONFIGS.FASTA_DIR + pdb_code + CONFIGS.FASTA_EXT
+        
+        records = SeqIO.parse(protein_cif, CONFIGS.CIF_ATOM)
+        SeqIO.write(records, protein_fasta, CONFIGS.FASTA)
+
 
 
 pdb = PDB()
@@ -128,6 +143,7 @@ for i, line in enumerate(file_content):
     # print(pdb_code, chain_id)
     pdb.download(pdb_code)
     is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
+    pdb.convert_cif_to_fasta(pdb_code)
     if not is_defected:
         good_pdbs.append(pdb_with_chain)
         DataUtils.save_contact_map(contact_map, pdb_with_chain)

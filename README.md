@@ -13,8 +13,9 @@ configs/
     __init_.py
     general_config.py
 data/
-    pdbs/
     contact_maps/
+    fastas/
+    pdbs/
 datasets/
     __init_.py
 metrics/
