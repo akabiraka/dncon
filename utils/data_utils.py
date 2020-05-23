@@ -10,7 +10,7 @@ def save_tensor(tensor, file):
 
 def save_contact_map(np_array, pdb_code):
     file = CONTACT_MAP_DIR + pdb_code
-    save_tensor(torch.tensor(np_array), file + PT_EXT)
+    save_tensor(torch.tensor(np_array), file + DOT_PT)
 
 def save_itemlist(itemlist, file):
     with open(file, 'w') as f:

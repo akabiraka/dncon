@@ -5,6 +5,9 @@ import traceback
 
 from Bio.PDB import *
 from Bio import SeqIO
+from Bio.Blast import NCBIWWW
+from Bio.Blast import NCBIXML
+from Bio.Blast.Applications import NcbipsiblastCommandline
 
 import configs.general_config as CONFIGS
 import utils.data_utils as DataUtils
@@ -21,6 +24,9 @@ class PDB(object):
         self.aa_3to1 = CONFIGS.AMINO_ACID_3TO1
 
         self.threshhold = 8
+
+        self.blast_db = CONFIGS.BLAST_DB
+        self.psiblast_exe = CONFIGS.PSIBLAST_EXE
         
     def read_pdb_ids(self, line):
         """
@@ -91,8 +97,8 @@ class PDB(object):
         return np.sqrt(np.sum(diff_vector * diff_vector))
 
     def get_contact_map(self, pdb_code, chain_id):
-        print("converting {}, {} into contact map ... ...".format(pdb_code, chain_id))
-        pdb_filename = CONFIGS.PDB_DIR + pdb_code + CONFIGS.CIF_EXT
+        print("computing contact-map for {}:{} ... ...".format(pdb_code, chain_id))
+        pdb_filename = CONFIGS.PDB_DIR + pdb_code + CONFIGS.DOT_CIF
         is_defected = False
         # reading whole structure
         structure = self.parser.get_structure(pdb_code, pdb_filename)
@@ -115,22 +121,58 @@ class PDB(object):
                 # computing comtact map on threshhold
                 contact_map = np.where(dist_matrix < self.threshhold, 1, 0)
         
+        DataUtils.save_contact_map(contact_map, pdb_with_chain)
+        # DataViz.plot_images([contact_map], pdb_with_chain, cols=1)
         return is_defected, contact_map, dist_matrix
 
-    def convert_cif_to_fasta(self, pdb_code):
+    def convert_cif_to_fasta(self, pdb_code, chain_id):
         """
         Bio.SeqIO describes how to convert in the following page in "Conversion" section
             https://biopython.org/DIST/docs/api/Bio.SeqIO-module.html
         The following link has an example for converting "cif to fasta" format.
             http://sequenceconversion.bugaco.com/converter/biology/sequences/cif-atom_to_fasta.php
         """
-        print("converting {} into fasta ... ...".format(pdb_code))
-        protein_cif = CONFIGS.PDB_DIR + pdb_code + CONFIGS.CIF_EXT
-        protein_fasta = CONFIGS.FASTA_DIR + pdb_code + CONFIGS.FASTA_EXT
-        
+        print("computing fasta for {}:{} ... ...".format(pdb_code, chain_id))
+        protein_cif = CONFIGS.PDB_DIR + pdb_code + CONFIGS.DOT_CIF
         records = SeqIO.parse(protein_cif, CONFIGS.CIF_ATOM)
-        SeqIO.write(records, protein_fasta, CONFIGS.FASTA)
+        for record in records:
+            if record.id[-1] == chain_id:
+                protein_fasta = CONFIGS.FASTA_DIR + pdb_code + chain_id + CONFIGS.DOT_FASTA
+                SeqIO.write(record, protein_fasta, CONFIGS.FASTA)
 
+    def get_blast_result(self, pdb_code, chain_id):
+        """
+        From following link, section: "Running BLAST over the Internet" 
+            http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc91
+        """
+        print("computing blastp for {} over internet".format(pdb_code))
+        protein_fasta = CONFIGS.FASTA_DIR + pdb_code + chain_id + CONFIGS.DOT_FASTA
+        record = SeqIO.read(protein_fasta, format=CONFIGS.FASTA) # read is for when you have exactly one object, and parse is an iterator for when you can have lots of objects 
+        result_handle = NCBIWWW.qblast("blastp", "nt", record.seq)
+        result_file = CONFIGS.BLAST_DIR + pdb_code + chain_id + CONFIGS.DOT_XML
+        with open(result_file, "w") as out_handle:
+            out_handle.write(result_handle.read())
+        result_handle.close()
+
+    def psi_blast(self, pdb_code, chain_id):
+        """
+        This blast run the query sequence 3 iterations against a db using psiblast program,
+        and save the output file in psiblast directory as xml format. 
+        """
+        print("computing PSSM for {}:{} using psi-blast ... ...".format(pdb_code, chain_id))
+        pdb_with_chain_id = pdb_code + chain_id
+        query = CONFIGS.FASTA_DIR + pdb_with_chain_id + CONFIGS.DOT_FASTA
+        # out_xml = CONFIGS.PSIBLAST_DIR + pdb_with_chain_id + CONFIGS.DOT_XML
+        # out_pssm = CONFIGS.PSIBLAST_DIR + "pssm.txt"
+        out_ascii_pssm = CONFIGS.PSIBLAST_DIR + pdb_with_chain_id + ".pssm"
+        E_VALUE_TRESH = "10"
+        
+        cline = NcbipsiblastCommandline(cmd=self.psiblast_exe, db=self.blast_db, query=query,\
+                                        evalue = E_VALUE_TRESH, outfmt = 5, num_iterations=3,\
+                                        save_pssm_after_last_round=True, out_ascii_pssm=out_ascii_pssm)
+                                        # out = out_xml, out_pssm=out_pssm, 
+        cline()
+        
 
 
 pdb = PDB()
@@ -138,19 +180,19 @@ file_content = open(CONFIGS.ALL_PDB_IDS, "r")
 good_pdbs = []
 bad_pdbs = []
 for i, line in enumerate(file_content):
+    print("{}th protein:".format(i+1))
     pdb_code, chain_id = pdb.read_pdb_ids(line)
     pdb_with_chain = pdb_code + chain_id
     # print(pdb_code, chain_id)
     pdb.download(pdb_code)
     is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
-    pdb.convert_cif_to_fasta(pdb_code)
+    pdb.convert_cif_to_fasta(pdb_code, chain_id)
+    pdb.psi_blast(pdb_code, chain_id)
     if not is_defected:
         good_pdbs.append(pdb_with_chain)
-        DataUtils.save_contact_map(contact_map, pdb_with_chain)
-        DataViz.plot_images([contact_map], pdb_with_chain, cols=1)
     else:
         bad_pdbs.append(pdb_with_chain)
-
+    print()
 # save good_pdbs, and bad_pdbs in file
 DataUtils.save_itemlist(bad_pdbs, CONFIGS.BAD_PDB_IDS)
 DataUtils.save_itemlist(good_pdbs, CONFIGS.GOOD_PDB_IDS)

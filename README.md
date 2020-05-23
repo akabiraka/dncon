@@ -52,4 +52,41 @@ You could use the following command:
 ```
 Or you can open jupyter notebook to run the notebooks.
 
-    
+## Todo
+1. **PSSM using PSI-BLAST**<br />
+    First BLAST command line applications (i.e. psiblast, blastp etc) are used using the following manner. Then ```Bio.Blast.Applications``` is used for running ```psiblast``` using Biopython.
+    <br />
+    Quick start on BLAST: https://www.ncbi.nlm.nih.gov/books/NBK279680/
+    <br />
+    BLAST TOOLs: https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ <br />
+    BLAST DBs: https://ftp.ncbi.nlm.nih.gov/blast/db/ <br />
+    Currently the work is done using "swissprot" database. Later it must be done using  a non-redundant version of the nr sequence database.
+    <br />
+
+    To download "swissprot":
+    ```
+    ncbi/ncbi-blast-2.10.0+/bin/update_blastdb.pl --decompress swissprot
+    ```
+    then keep all files in "/my_swissprot/" directory
+
+    To download all "nr" databases: 
+    ```
+    update_blastdb.pl --decompress nr [*]
+    ```
+
+    To download "swissprot" fasta file go to: https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/ <br />
+    To preformat downloaded "swissprot.tar.gz" go to: https://ftp.ncbi.nlm.nih.gov/blast/db/FASTA/ <br />
+
+    The following command can be used to create blast-db from fasta sequence
+    ```
+    ncbi/ncbi-blast-2.10.0+/bin/makeblastdb -dbtype prot -in swissprot.fasta -input_type fasta -out swissprot_mine/swissprot
+
+    Here, swissprot is the name of the database (not the path), couple of files names are prefixed with this.
+    ```
+
+2. **Scratch Protein predictor** for secondary structure (SSpro) and solvent accessibility (ACCpro) computation: http://scratch.proteomics.ics.uci.edu/
+3.
+
+
+## Notes
+
