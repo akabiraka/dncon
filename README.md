@@ -16,6 +16,7 @@ data/
     contact_maps/
     fastas/
     pdbs/
+    psiblast/
 datasets/
     __init_.py
 metrics/
