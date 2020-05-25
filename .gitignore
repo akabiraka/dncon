@@ -138,3 +138,4 @@ data/fastas/*.fasta
 data/psiblast/*.pssm
 outputs/logs/*
 ncbi/*
+data/scratch_out/*

@@ -1,11 +1,12 @@
 # data directories
 DATA_DIR = "data/"
-ALL_PDB_IDS = DATA_DIR + "all_pdb_ids_tiny.txt"
 PDB_DIR = DATA_DIR + "pdbs/"
 BLAST_DIR = DATA_DIR + "blast/"
 PSIBLAST_DIR = DATA_DIR + "psiblast/"
 CONTACT_MAP_DIR = DATA_DIR + "contact_maps/"
 FASTA_DIR = DATA_DIR + "fastas/"
+# data input-files
+ALL_PDB_IDS = DATA_DIR + "all_pdb_ids_tiny.txt"
 BAD_PDB_IDS = DATA_DIR + "bad_pdb_ids.txt"
 GOOD_PDB_IDS = DATA_DIR + "good_pdb_ids.txt"
 
@@ -32,7 +33,7 @@ OUTPUT_IMAGES_DIR = OUTPUT_DIR + "images/"
 OUTPUT_MODELS_DIR = OUTPUT_DIR + "models/"
 OUTPUT_LOGS_DIR = OUTPUT_DIR + "logs/"
 
-# amino-acids
+# 20 amino-acids
 AMINO_ACID_3TO1 = {'ALA': 'A',
                    'CYS': 'C',
                    'ASP': 'D',
@@ -53,4 +54,9 @@ AMINO_ACID_3TO1 = {'ALA': 'A',
                    'VAL': 'V',
                    'TRP': 'W',
                    'TYR': 'Y'}
+
+# SCRATCH
+SCRATCH_EXE_PATH = "/home/akabir/SCRATCH-1D_1.2/bin/run_SCRATCH-1D_predictors.sh"
+N_SCRATCH_workers = 4
+SCRATCH_OUT = DATA_DIR + "scratch_out/"
 

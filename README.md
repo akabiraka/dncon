@@ -53,7 +53,7 @@ You could use the following command:
 ```
 Or you can open jupyter notebook to run the notebooks.
 
-## Todo
+## Feature Computation
 1. **PSSM using PSI-BLAST**<br />
     First BLAST command line applications (i.e. psiblast, blastp etc) are used using the following manner. Then ```Bio.Blast.Applications``` is used for running ```psiblast``` using Biopython.
     <br />
@@ -84,9 +84,12 @@ Or you can open jupyter notebook to run the notebooks.
 
     Here, swissprot is the name of the database (not the path), couple of files names are prefixed with this.
     ```
-
 2. **Scratch Protein predictor** for secondary structure (SSpro) and solvent accessibility (ACCpro) computation: http://scratch.proteomics.ics.uci.edu/
-3.
+
+3. **Acthley Factors**
+    ```
+    electrostatic charge, codon diversity, volume, polarity and secondary structure
+    ```
 
 
 ## Notes

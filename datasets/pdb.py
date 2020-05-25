@@ -2,6 +2,7 @@ import sys
 sys.path.append('../dncon')
 import numpy as np
 import traceback
+import subprocess
 
 from Bio.PDB import *
 from Bio import SeqIO
@@ -173,26 +174,40 @@ class PDB(object):
                                         # out = out_xml, out_pssm=out_pssm, 
         cline()
         
+    def run_scratch_suite(self, pdb_code, chain_id):
+        """
+        This function runs scratch-suite for each pdbid-chainid.
+        SCRATCH currently generates four output files:
+        .ss, .ss8, acc, acc20
+        """
+        print("running SCRATCH-suite for {}:{} ... ...".format(pdb_code, chain_id))
+        input_fasta_file = "../fastas/" + pdb_code + chain_id + CONFIGS.DOT_FASTA
+        command = "cd " + CONFIGS.SCRATCH_OUT + "; " + \
+            CONFIGS.SCRATCH_EXE_PATH + " " + input_fasta_file + " " + pdb_code + chain_id + " " + str(4) +";"
+        proc = subprocess.Popen(command, shell=True)#, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc.communicate() # comment me if you want to run the process in background
 
 
 pdb = PDB()
-file_content = open(CONFIGS.ALL_PDB_IDS, "r")
-good_pdbs = []
-bad_pdbs = []
-for i, line in enumerate(file_content):
-    print("{}th protein:".format(i+1))
-    pdb_code, chain_id = pdb.read_pdb_ids(line)
-    pdb_with_chain = pdb_code + chain_id
-    # print(pdb_code, chain_id)
-    pdb.download(pdb_code)
-    is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
-    pdb.convert_cif_to_fasta(pdb_code, chain_id)
-    pdb.psi_blast(pdb_code, chain_id)
-    if not is_defected:
-        good_pdbs.append(pdb_with_chain)
-    else:
-        bad_pdbs.append(pdb_with_chain)
-    print()
-# save good_pdbs, and bad_pdbs in file
-DataUtils.save_itemlist(bad_pdbs, CONFIGS.BAD_PDB_IDS)
-DataUtils.save_itemlist(good_pdbs, CONFIGS.GOOD_PDB_IDS)
+pdb.run_scratch_suite("6y2d", "A")
+# file_content = open(CONFIGS.ALL_PDB_IDS, "r")
+# good_pdbs = []
+# bad_pdbs = []
+# for i, line in enumerate(file_content):
+#     print("{}th protein:".format(i+1))
+#     pdb_code, chain_id = pdb.read_pdb_ids(line)
+#     pdb_with_chain = pdb_code + chain_id
+#     # print(pdb_code, chain_id)
+#     pdb.download(pdb_code)
+#     is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
+#     pdb.convert_cif_to_fasta(pdb_code, chain_id)
+#     pdb.psi_blast(pdb_code, chain_id)
+#     pdb.run_scratch_suite(pdb_code, chain_id)
+#     if not is_defected:
+#         good_pdbs.append(pdb_with_chain)
+#     else:
+#         bad_pdbs.append(pdb_with_chain)
+#     print()
+# # save good_pdbs, and bad_pdbs in file
+# DataUtils.save_itemlist(bad_pdbs, CONFIGS.BAD_PDB_IDS)
+# DataUtils.save_itemlist(good_pdbs, CONFIGS.GOOD_PDB_IDS)
