@@ -28,6 +28,8 @@ DOT_PT = ".pt"
 DOT_FASTA = ".fasta"
 DOT_XML = ".xml"
 DOT_PSSM = ".pssm"
+DOT_SS = ".ss"
+DOT_ACC = ".acc"
 
 # output directories
 OUTPUT_DIR = "outputs/"
@@ -56,6 +58,11 @@ AMINO_ACID_3TO1 = {'ALA': 'A',
                    'VAL': 'V',
                    'TRP': 'W',
                    'TYR': 'Y'}
+
+# 3 binary inputs to encode the predicted secondary structure (helix(H): 100, beta(E): 010, coil(C): 001)
+SS3 = {'C':2, 'E':1, 'H':0}
+# 2 binary inputs for solvent accessibility (exposed: 10, buried: 01)
+ACC2 = {'e':0, '-':1}
 
 # SCRATCH
 SCRATCH_EXE_PATH = "/home/akabir/SCRATCH-1D_1.2/bin/run_SCRATCH-1D_predictors.sh"

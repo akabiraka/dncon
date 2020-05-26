@@ -6,7 +6,7 @@ import configs.general_config as CONFIGS
 
 class PSSM(object):
     def __init__(self):
-        super().__init__()
+        super(PSSM, self).__init__()
 
     def compute_things(self, pdb_code, chain_id):
         path = CONFIGS.PSIBLAST_DIR + pdb_code + chain_id + CONFIGS.DOT_PSSM

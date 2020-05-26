@@ -15,8 +15,9 @@ import utils.data_utils as DataUtils
 import vizualizations.data_viz as DataViz
 
 
-class PDB(object):
+class DataGenerator(object):
     def __init__(self):
+        super(DataGenerator, self).__init__()
         print("alhumdulillah")
         self.pdb_ids_file = CONFIGS.ALL_PDB_IDS
 
@@ -188,7 +189,7 @@ class PDB(object):
         proc.communicate() # comment me if you want to run the process in background
 
 
-pdb = PDB()
+pdb = DataGenerator()
 file_content = open(CONFIGS.ALL_PDB_IDS, "r")
 good_pdbs = []
 bad_pdbs = []

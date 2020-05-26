@@ -5,7 +5,7 @@ import pandas as pd
 import configs.general_config as CONFIGS
 class AtchleyFactors(object):
     def __init__(self):
-        super().__init__()
+        super(AtchleyFactors, self).__init__()
         atchley_file = CONFIGS.ATCHLEY_FACTORS
         atchley_df = pd.read_csv(atchley_file, delim_whitespace=True, header=None)
         atchley_df = atchley_df.drop(0)
