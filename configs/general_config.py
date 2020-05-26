@@ -27,6 +27,7 @@ DOT_CIF = ".cif"
 DOT_PT = ".pt"
 DOT_FASTA = ".fasta"
 DOT_XML = ".xml"
+DOT_PSSM = ".pssm"
 
 # output directories
 OUTPUT_DIR = "outputs/"
