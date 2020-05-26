@@ -86,7 +86,7 @@ Or you can open jupyter notebook to run the notebooks.
     ```
 2. **Scratch Protein predictor** for secondary structure (SSpro) and solvent accessibility (ACCpro) computation: http://scratch.proteomics.ics.uci.edu/
 
-3. **Acthley Factors**
+3. **Atchley Factors**
     ```
     electrostatic charge, codon diversity, volume, polarity and secondary structure
     ```

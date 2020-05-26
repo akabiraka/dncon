@@ -189,25 +189,24 @@ class PDB(object):
 
 
 pdb = PDB()
-pdb.run_scratch_suite("6y2d", "A")
-# file_content = open(CONFIGS.ALL_PDB_IDS, "r")
-# good_pdbs = []
-# bad_pdbs = []
-# for i, line in enumerate(file_content):
-#     print("{}th protein:".format(i+1))
-#     pdb_code, chain_id = pdb.read_pdb_ids(line)
-#     pdb_with_chain = pdb_code + chain_id
-#     # print(pdb_code, chain_id)
-#     pdb.download(pdb_code)
-#     is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
-#     pdb.convert_cif_to_fasta(pdb_code, chain_id)
-#     pdb.psi_blast(pdb_code, chain_id)
-#     pdb.run_scratch_suite(pdb_code, chain_id)
-#     if not is_defected:
-#         good_pdbs.append(pdb_with_chain)
-#     else:
-#         bad_pdbs.append(pdb_with_chain)
-#     print()
-# # save good_pdbs, and bad_pdbs in file
-# DataUtils.save_itemlist(bad_pdbs, CONFIGS.BAD_PDB_IDS)
-# DataUtils.save_itemlist(good_pdbs, CONFIGS.GOOD_PDB_IDS)
+file_content = open(CONFIGS.ALL_PDB_IDS, "r")
+good_pdbs = []
+bad_pdbs = []
+for i, line in enumerate(file_content):
+    print("{}th protein:".format(i+1))
+    pdb_code, chain_id = pdb.read_pdb_ids(line)
+    pdb_with_chain = pdb_code + chain_id
+    # print(pdb_code, chain_id)
+    pdb.download(pdb_code)
+    is_defected, contact_map, dist_matrix = pdb.get_contact_map(pdb_code, chain_id)
+    pdb.convert_cif_to_fasta(pdb_code, chain_id)
+    pdb.psi_blast(pdb_code, chain_id)
+    pdb.run_scratch_suite(pdb_code, chain_id)
+    if not is_defected:
+        good_pdbs.append(pdb_with_chain)
+    else:
+        bad_pdbs.append(pdb_with_chain)
+    print()
+# save good_pdbs, and bad_pdbs in file
+DataUtils.save_itemlist(bad_pdbs, CONFIGS.BAD_PDB_IDS)
+DataUtils.save_itemlist(good_pdbs, CONFIGS.GOOD_PDB_IDS)
