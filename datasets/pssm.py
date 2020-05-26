@@ -58,7 +58,7 @@ class PSSM(object):
         self.compute_things(pdb_code, chain_id)
         return self.full
 
-    def get_full_minus_last_col(self, pdb_code, chain_id):
+    def get_pssm_observed_percentage_information(self, pdb_code, chain_id):
         """
         returns pssm, weighted observed percentages and
         information per position
@@ -69,8 +69,8 @@ class PSSM(object):
 
 
 pssm = PSSM()
-print(pssm.get_pssm("5sy8", "O"))
-print(pssm.get_pssm("6y2d", "A"))
+print(pssm.get_pssm_observed_percentage_information("5sy8", "O"))
+print(pssm.get_pssm_observed_percentage_information("6y2d", "A"))
 
 
     
