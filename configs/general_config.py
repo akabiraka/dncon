@@ -9,6 +9,7 @@ FASTA_DIR = DATA_DIR + "fastas/"
 ALL_PDB_IDS = DATA_DIR + "all_pdb_ids_tiny.txt"
 BAD_PDB_IDS = DATA_DIR + "bad_pdb_ids.txt"
 GOOD_PDB_IDS = DATA_DIR + "good_pdb_ids.txt"
+ATCHLEY_FACTORS = DATA_DIR + "atchley_factors.txt"
 
 # BLAST directories
 NCBI = "ncbi/"
