@@ -3,6 +3,7 @@ sys.path.append('../dncon')
 import numpy as np
 import pandas as pd
 import configs.general_config as CONFIGS
+
 class AtchleyFactors(object):
     def __init__(self):
         super(AtchleyFactors, self).__init__()
@@ -17,7 +18,7 @@ class AtchleyFactors(object):
         return result
 
 
-af = AtchleyFactors()
-print(af.get('A'))
+# af = AtchleyFactors()
+# print(af.get('A'))
 # to run 
 # python datasets/atchley_factors.py
