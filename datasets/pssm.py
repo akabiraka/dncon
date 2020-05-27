@@ -50,28 +50,28 @@ class PSSM(object):
         gapless_match = df.loc[:, 43]
         return gapless_match
     
-    def get_full(self, pdb_code, chain_id):
+    def get_all(self, pdb_code, chain_id):
         """
         returns full dataframe
         """
         df = self.compute_things(pdb_code, chain_id)
-        full = df.loc[:, 2:]
+        full = df.loc[:, 1:]
         return full
 
-    def get_pssm_observed_percentage_information(self, pdb_code, chain_id):
+    def get_pssm_observed_information(self, pdb_code, chain_id):
         """
         returns pssm, weighted observed percentages and
         information per position
         """
         df = self.compute_things(pdb_code, chain_id)
-        full_minus_gapless_match = df.loc[:, 2:42]
+        full_minus_gapless_match = df.loc[:, 1:42]
         return full_minus_gapless_match 
 
 
 
-pssm = PSSM()
-print(pssm.get_pssm_observed_percentage_information("5sy8", "O"))
-print(pssm.get_pssm_observed_percentage_information("6y2d", "A"))
+# pssm = PSSM()
+# print(pssm.get_pssm_observed_information("5sy8", "O"))
+# print(pssm.get_pssm_observed_information("6y2d", "A"))
 
 
     
