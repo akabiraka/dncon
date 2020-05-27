@@ -42,16 +42,14 @@ tester.py
 Python 3
 
 ## How to run?
-When you first use this, try running the following command to see if all packages and modules are successfully imported.
+To generate data:
 ```
->> python tester.py
-Successfully imported all packages
+>> python datasets/data_generator.py
 ```
-You could use the following command:
+To compute features:
 ```
->> python run.py
+>> python datasets/features.py
 ```
-Or you can open jupyter notebook to run the notebooks.
 
 ## Feature Computation
 1. **PSSM using PSI-BLAST**<br />
