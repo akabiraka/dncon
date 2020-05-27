@@ -10,6 +10,9 @@ class GlobalFeatures(object):
         super(GlobalFeatures, self).__init__()
 
     def encode_protein_length(self, l):
+        """
+        encode protein length (<75: 1000, 75–150: 0100, 150–225: 0010, >225: 0001)
+        """
         values = 0
         if(l<=75):
             values = np.full(l, 0)

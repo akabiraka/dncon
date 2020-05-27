@@ -21,6 +21,10 @@ class AtchleyFactors(object):
         return result
 
     def get_all(self, amino_acids):
+        """
+        Given amino-acids this function computes full atchley-factors.
+        This function use get() in itself.
+        """ 
         factors_df = pd.DataFrame()
         for aa in amino_acids:
             factors_df = factors_df.append(self.get(aa))

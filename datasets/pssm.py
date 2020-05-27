@@ -8,7 +8,7 @@ class PSSM(object):
     def __init__(self):
         super(PSSM, self).__init__()
 
-    def compute_things(self, pdb_code, chain_id):
+    def __compute_things(self, pdb_code, chain_id):
         path = CONFIGS.PSIBLAST_DIR + pdb_code + chain_id + CONFIGS.DOT_PSSM
         df = pd.read_csv(path, delim_whitespace=True, header=None, skiprows=[1, 2]) # skipping 1st 2 rows
         df = df.head(-5) # removing last 5 rows
@@ -19,7 +19,7 @@ class PSSM(object):
         from psiblast output
         position-specific scoring matrix computed
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         pssm = df.loc[:, 2:21]
         return pssm
 
@@ -28,7 +28,7 @@ class PSSM(object):
         from psiblast output
         weighted observed percentages rounded down
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         observed_percentage = df.loc[:, 22:41]
         return observed_percentage
     
@@ -37,7 +37,7 @@ class PSSM(object):
         from psiblast output
         information per position
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         information = df.loc[:, 42]
         return information
 
@@ -46,7 +46,7 @@ class PSSM(object):
         from psiblast output
         relative weight of gapless real matches to pseudocounts
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         gapless_match = df.loc[:, 43]
         return gapless_match
     
@@ -54,7 +54,7 @@ class PSSM(object):
         """
         returns full dataframe
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         full = df.loc[:, 1:]
         return full
 
@@ -63,7 +63,7 @@ class PSSM(object):
         returns pssm, weighted observed percentages and
         information per position
         """
-        df = self.compute_things(pdb_code, chain_id)
+        df = self.__compute_things(pdb_code, chain_id)
         full_minus_gapless_match = df.loc[:, 1:42]
         return full_minus_gapless_match 
 
