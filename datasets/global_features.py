@@ -21,3 +21,16 @@ class GlobalFeatures(object):
             values = np.full(l, 3)
         one_hot_tensor = F.one_hot(torch.tensor(values), num_classes=4)
         return pd.DataFrame(one_hot_tensor.numpy())
+
+    def encode_window_position(self, pos, l):
+        """
+        pos: current window position
+        l: protein length
+        """
+        relative_pos = pos/l
+        feature = np.zeros(l)
+        feature[:] = relative_pos
+        return pd.DataFrame(feature)
+
+# gf = GlobalFeatures()
+# gf.encode_window_position(5, 155)
