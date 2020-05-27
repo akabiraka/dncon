@@ -24,17 +24,13 @@ class Features(object):
         exposed_prcnt_df = self.scratch.get_exposed_percent_df(pdb_code, chain_id)
         encoded_prot_len = self.global_features.encode_protein_length(pssm_df.shape[0])
         encoded_window_pos = self.global_features.encode_window_position(self.window_pos, pssm_df.shape[0])
-        result = pd.concat([pssm_df, ss3_df, acc2_df, exposed_prcnt_df, encoded_prot_len, encoded_window_pos], axis=1, ignore_index=True)
-        result = result.set_index(0)
-
-        factors_df = pd.DataFrame()
-        for aa in pssm_df.loc[:, 1]:
-            factors_df = factors_df.append(self.atchley_factors.get(aa))
+        atchley_factors_df = self.atchley_factors.get_all(pssm_df.loc[:, 1])
         
-        result = pd.concat([result, factors_df], axis=1, ignore_index=True)       
+        result = pd.concat([pssm_df, ss3_df, acc2_df, exposed_prcnt_df, encoded_prot_len, encoded_window_pos, atchley_factors_df], axis=1, ignore_index=True)
+        result.drop(0, axis=1, inplace=True)
         print("PSSM: {}\nSS3: {}\nACC2: {}\nExposed %: {}\nProtein len: {}\nWindow-pos: {}\nAtchley factors: {}\nCombined features: {}\n "\
             .format(pssm_df.shape, ss3_df.shape, acc2_df.shape, exposed_prcnt_df.shape, \
-                encoded_prot_len.shape, encoded_window_pos.shape, factors_df.shape, result.shape))
+                encoded_prot_len.shape, encoded_window_pos.shape, atchley_factors_df.shape, result.shape))
         
         return result
 
