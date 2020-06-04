@@ -69,3 +69,8 @@ SCRATCH_EXE_PATH = "/home/akabir/SCRATCH-1D_1.2/bin/run_SCRATCH-1D_predictors.sh
 N_SCRATCH_workers = 4
 SCRATCH_OUT = DATA_DIR + "scratch_out/"
 
+# Pairwise contact-potentials
+BRAUNS = DATA_DIR + "brauns_potentials.csv"
+JERNIGANS = DATA_DIR + "jernigans_potentials.csv"
+LEVITTS = DATA_DIR + "levitts_potentials.csv"
+
